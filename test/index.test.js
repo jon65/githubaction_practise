@@ -1,20 +1,21 @@
-// Import Chai assertion library
 const chai = require('chai');
-
-// Use Chai's expect function
+const supertest = require('supertest');
+const app = require('../index'); // assuming your main file is named index.js
 const expect = chai.expect;
+const request = supertest(app);
 
-// Your function or module to be tested
-function addNumbers(a, b) {
-  return a + b;
-}
+describe('Express App', () => {
+  it('should respond with "Hello, World!" for GET request to /', (done) => {
+    request.get('/')
+      .expect(200)
+      .end((err, res) => {
+        expect(res.text).to.equal('Hello, World!');
+        done();
+      });
+  });
 
-// Describe your test suite
-describe('addNumbers function', () => {
-  // Write a test case
-  it('should add two numbers correctly', () => {
-    // Call your function and use Chai's expect to make assertions
-    const result = addNumbers(2, 3);
-    expect(result).to.equal(5); // Check if the result is equal to 5
+  it('should respond with 404 for unknown routes', (done) => {
+    request.get('/unknown-route')
+      .expect(404, done);
   });
 });
