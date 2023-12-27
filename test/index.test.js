@@ -1,7 +1,6 @@
 const chai = require('chai');
 const supertest = require('supertest');
 const app = require('../index'); // assuming your main file is named index.js
-
 const expect = chai.expect;
 const request = supertest(app);
 
